@@ -1,33 +1,40 @@
-import time
 import RPi.GPIO as GPIO
+import time
+from config import Config
+from touchpad import input_password, set_new_pin
+from backend.password_manager import verify_password, load_password
 
-# Set GPIO pin for the break beam sensor
-RELAY_PIN = 26  # Adjust according to your wiring
+# Set up GPIO for solenoid lock
+def setup_lock():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(Config.RELAY_PIN, GPIO.OUT)
+    print("Lock set up done")  # for debugging 
 
-# Set up GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(RELAY_PIN, GPIO.OUT)
 
-
+#Closes the solenoid lock.
 def lock_close():
-    print("Closing Lock")
-    GPIO.output(RELAY_PIN, GPIO.HIGH)
+    print("Locking mailbox...")
+    GPIO.output(Config.RELAY_PIN, GPIO.HIGH)
 
-
+#Opens the solenoid lock.
 def lock_open():
-    print("Opening Lock")
-    GPIO.output(RELAY_PIN, GPIO.LOW)
+    print("Unlocking mailbox...")
+    GPIO.output(Config.RELAY_PIN, GPIO.LOW)
 
-
-try:
-    while True:
-        command = input()
-        if command == "open":
+#Handles locking/unlocking based on the correct password.
+def handle_lock():
+    stored_password = load_password()    # Load the stored (hashed) password from file
+    if stored_password is None:
+        print("No password found.")
+        set_new_pin()
+    
+    else:
+        # Ask the user to input the password
+        if verify_password(input_password()):
             lock_open()
-        elif command == "close":
+            print("Mailbox unlocked")
+            time.sleep(5)  # Keep the lock open for 5 seconds
             lock_close()
-        time.sleep(2)
-except KeyboardInterrupt:
-    print("Program terminated")
-finally:
-    GPIO.cleanup()  # Clean up GPIO settings
+            print("Mailbox locked")
+        else:
+            print("Incorrect password.")

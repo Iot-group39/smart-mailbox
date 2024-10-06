@@ -14,7 +14,10 @@ class Config:
 
     IMAGE_STORAGE_PATH = os.getenv('IMAGE_STORAGE_PATH', './images/')
 
-    SENSOR_PIN = 17
+    SENSOR_PIN = 25
+    RELAY_PIN = 26 
+    LED_PIN = 23
+
     CAMERA_RESOLUTION = (1024, 768)
 
     REQUEST_TIMEOUT = 10

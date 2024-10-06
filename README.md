@@ -4,9 +4,17 @@
 
 **Smart Mailbox** is an IoT-enabled solution designed to enhance the convenience and security of traditional mail management systems.
 
-## Getting the Code
+## Running the Project on Your Device
 
-This repository uses Git hooks to streamline contributions. To clone the repository and set up your environment, run the following commands:
+### Prerequisites
+Before running the project, make sure you have the following installed:
+- **Node.js** (with npm) – You can download it from [here](https://nodejs.org/).
+
+### Steps to Run the Project
+
+1. **Clone the Repository**:
+
+This repository uses Git hooks to streamline contributions. First, clone the repository and navigate to the project directory. Then to set up your environment, run the following commands:
 
 ```bash
 git clone https://github.com/Iot-group39/smart-mailbox.git
@@ -14,6 +22,23 @@ cd smart-mailbox
 ./setup-git-hooks.sh  # For Linux or macOS
 setup-git-hooks.cmd  # For Windows
 ```
+
+2. **Install Frontend Dependencies**:
+   Navigate to the `frontend` folder and install the dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. **Run the Frontend**:
+   After the dependencies are installed, start the local development server:
+   ```bash
+   npm run dev
+   ```
+
+   This will launch the website on a local server. You can access it in your browser at:
+   - Local URL: `http://localhost:5173/`
+   
 
 ## Committing Your Changes
 
